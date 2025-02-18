@@ -110,6 +110,13 @@ public partial class WeaponFunc : RayCast3D
 		CurrentAmmo -= AmmoToUse;
 		currentMag += AmmoToUse;
 		Reload = false;
-		usedBullet = -1;
+		if(oneChamber)
+		{
+			usedBullet = -1;
+		}
+		else
+		{
+			usedBullet = 0;
+		}
 	}
 }
