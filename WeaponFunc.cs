@@ -11,7 +11,7 @@ public partial class WeaponFunc : RayCast3D
 	private float firingTime = 0f;
 
 	[Export] private bool oneChamber = true;
-	[Export] private bool Reload =false;
+	[Export] private bool Reload = false;
 	[Export] private float rateOfFire = 10f;
 	[Export] private float timeToReload = 1f;
 	[Export] private float timeToLoadPartial = 1f;
@@ -38,7 +38,7 @@ public partial class WeaponFunc : RayCast3D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		ammoCounter.Text = currentMag.ToString() + " / " + CurrentAmmo.ToString();
+		ammoCounter.Text = currentMag.ToString() + " / " + CurrentAmmo.ToString() + " Debug " + usedBullet.ToString();
 		
 		if(Reload)
 		{
@@ -50,8 +50,15 @@ public partial class WeaponFunc : RayCast3D
 			Fire();
 			GD.Print(currentMag + " Bullet(s) left, then " + usedBullet + " being used");
 		}
-		if(Input.IsActionJustPressed("reload") && CurrentAmmo > 0)
+		if(Input.IsActionJustPressed("reload") && CurrentAmmo > 0 && currentMag < MagLimit + 1 )
 		{
+			if(oneChamber)
+			{
+				float insideChamber;
+				insideChamber = usedBullet + 1;
+				usedBullet = insideChamber;
+				insideChamber = 0;
+			}
 			DoMidReload();
 		}
 	}
@@ -75,6 +82,10 @@ public partial class WeaponFunc : RayCast3D
 
 	private async void DoReload()
 	{
+		if(usedBullet >= 31)
+		{
+			usedBullet = 30;
+		}
 		Reload = true;
 		await ToSignal(GetTree().CreateTimer(.25f), "timeout");
 		_playerWpnAnimTree.Set("parameters/Empty Reload/request", (int)AnimationNodeOneShot.OneShotRequest.Fire);
@@ -99,6 +110,6 @@ public partial class WeaponFunc : RayCast3D
 		CurrentAmmo -= AmmoToUse;
 		currentMag += AmmoToUse;
 		Reload = false;
-		usedBullet = 0;
+		usedBullet = -1;
 	}
 }
