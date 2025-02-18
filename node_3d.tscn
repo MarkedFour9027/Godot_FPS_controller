@@ -1,0 +1,81 @@
+[gd_scene load_steps=9 format=3 uid="uid://bujii0rk3dqux"]
+
+[ext_resource type="Script" path="res://Player.cs" id="1_xw5y6"]
+[ext_resource type="Script" path="res://Recoil.cs" id="2_eofcb"]
+[ext_resource type="PackedScene" uid="uid://dhvfju6bnmqty" path="res://Anim/MP5.tscn" id="2_f8n8h"]
+[ext_resource type="Script" path="res://WeaponFunc.cs" id="2_lljw0"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_rtdid"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_q7ghj"]
+
+[sub_resource type="Sky" id="Sky_xu8wq"]
+sky_material = SubResource("ProceduralSkyMaterial_q7ghj")
+
+[sub_resource type="Environment" id="Environment_v4ml2"]
+background_mode = 2
+background_energy_multiplier = 2.8
+sky = SubResource("Sky_xu8wq")
+
+[node name="Node3D" type="Node3D"]
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+script = ExtResource("1_xw5y6")
+Sensitivity = 0.002
+VerticalSensitivity = 0.1
+JumpForce = 10.0
+WalkAmplifier = 0.002
+WalkFrequency = 10.0
+WalkRotAmplifier = 0.01
+WalkRotFrequency = 5.0
+BobbingAmplitude = 0.05
+BobbingFrequency = 11.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+shape = SubResource("CapsuleShape3D_rtdid")
+
+[node name="RecoilHandler" type="Node3D" parent="CharacterBody3D"]
+script = ExtResource("2_eofcb")
+_recoilX = 7.0
+_recoilY = 3.0
+_recoilZ = 5.0
+_snap = 7.0
+_returnSpeed = 10.0
+
+[node name="Camera3D" type="Camera3D" parent="CharacterBody3D/RecoilHandler"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.867552, -0.231418)
+environment = SubResource("Environment_v4ml2")
+
+[node name="RayCast3D" type="RayCast3D" parent="CharacterBody3D/RecoilHandler/Camera3D" node_paths=PackedStringArray("recoilHandler")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+target_position = Vector3(0, -10, 0)
+script = ExtResource("2_lljw0")
+rateOfFire = 13.0
+recoilHandler = NodePath("../..")
+
+[node name="Holster" type="Node3D" parent="CharacterBody3D/RecoilHandler/Camera3D/RayCast3D"]
+rotation_order = 0
+
+[node name="Rot" type="Node3D" parent="CharacterBody3D/RecoilHandler/Camera3D/RayCast3D/Holster"]
+
+[node name="MP5" parent="CharacterBody3D/RecoilHandler/Camera3D/RayCast3D/Holster/Rot" instance=ExtResource("2_f8n8h")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.215, 0)
+rotation_order = 0
+
+[node name="Ammo" type="TextEdit" parent="CharacterBody3D/RecoilHandler/Camera3D/RayCast3D"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -144.0
+offset_top = -41.0
+grow_horizontal = 0
+grow_vertical = 0
+placeholder_text = "30/180"
+wrap_mode = 1
+
+[node name="TextDebug" type="TextEdit" parent="CharacterBody3D/RecoilHandler/Camera3D"]
+offset_right = 48.0
+offset_bottom = 41.0
+text = "Text"
