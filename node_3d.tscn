@@ -1,9 +1,9 @@
 [gd_scene load_steps=9 format=3 uid="uid://bujii0rk3dqux"]
 
-[ext_resource type="Script" path="res://Player.cs" id="1_xw5y6"]
-[ext_resource type="Script" path="res://Recoil.cs" id="2_eofcb"]
+[ext_resource type="Script" uid="uid://7dysic3x43c7" path="res://Player.cs" id="1_xw5y6"]
+[ext_resource type="Script" uid="uid://be0or04v01j88" path="res://Recoil.cs" id="2_eofcb"]
 [ext_resource type="PackedScene" uid="uid://dhvfju6bnmqty" path="res://Anim/MP5.tscn" id="2_f8n8h"]
-[ext_resource type="Script" path="res://WeaponFunc.cs" id="2_lljw0"]
+[ext_resource type="Script" uid="uid://bnrp41a66q6w" path="res://WeaponFunc.cs" id="2_lljw0"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_rtdid"]
 
@@ -24,11 +24,21 @@ script = ExtResource("1_xw5y6")
 Sensitivity = 0.002
 VerticalSensitivity = 0.1
 JumpForce = 10.0
-WalkAmplifier = 0.002
-WalkFrequency = 10.0
+WalkAmplifier = 0.005
+WalkFrequency = 5.0
 WalkRotAmplifier = 0.01
-WalkRotFrequency = 5.0
-BobbingAmplitude = 0.05
+WalkRotFrequency = 7.0
+SprintAmplifier = 0.01
+SprintFrequency = 10.0
+SprintRotAmplifier = 0.05
+SprintRotFrequency = 9.0
+cameraSprintAmp = 2.0
+cameraSprintFreq = 8.0
+SprintPos_X = 0.05
+SprintPos_Z = 0.005
+SprintRot_X = -7.5
+SprintRot_Y = 4.5
+SprintRot_Z = -47.0
 BobbingFrequency = 11.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
